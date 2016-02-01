@@ -6,7 +6,7 @@ library(RcppAnnoy)
 set.seed(123)                           # be reproducible
 
 f <- 40
-a <- new(AnnoyEuclidean, f)
+a <- AnnoyIndex(f, "euclidean")
 n <- 50                                 # not specified
 
 for (i in seq(n)) {
@@ -18,7 +18,7 @@ a$build(50)                           	# 50 trees
 a$save("/tmp/test.tree")
 
 
-b <- new(AnnoyEuclidean, f)           	# new object, could be in another process
+b <- AnnoyIndex(f, "euclidean")           	# new object, could be in another process
 b$load("/tmp/test.tree")		# super fast, will just mmap the file
 
 print(b$getNNsByItem(0, 40))

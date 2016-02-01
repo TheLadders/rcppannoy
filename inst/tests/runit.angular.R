@@ -5,34 +5,34 @@
 
 test01getNNsByVector <- function() {
     f <- 3
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
 
     a$addItem(0, c(1,0,0))
     a$addItem(1, c(0,1,0))
     a$addItem(2, c(0,0,1))
-    
+
     a$build(10)
-    
-    checkEquals(a$getNNsByVector(c(3,2,1), 3),
+
+    checkEquals(a$getNNsByVector(c(3,2,1), 3)$item,
                 c(0,1,2),
                 msg="getNNsByVector check")
 }
 
 test02getNNsByItem <- function() {
     f <- 3
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
     a$addItem(0, c(2,1,0))
     a$addItem(1, c(1,2,0))
     a$addItem(2, c(0,0,1))
     a$build(10)
 
-    checkEquals(a$getNNsByItem(0, 3), c(0,1,2), msg="getNNsByItem check1")
-    checkEquals(a$getNNsByItem(1, 3), c(1,0,2), msg="getNNsByItem check2")
+    checkEquals(a$getNNsByItem(0, 3)$item, c(0,1,2), msg="getNNsByItem check1")
+    checkEquals(a$getNNsByItem(1, 3)$item, c(1,0,2), msg="getNNsByItem check2")
 }
 
 test03dist <- function() {
     f <- 2
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
     a$addItem(0, c(0, 1))
     a$addItem(1, c(1, 1))
 
@@ -42,7 +42,7 @@ test03dist <- function() {
 
 test04dist2 <- function() {
     f <- 2
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
     a$addItem(0, c(1000, 0))
     a$addItem(1, c(10, 0))
 
@@ -51,7 +51,7 @@ test04dist2 <- function() {
 
 test05dist3 <- function() {
     f <- 2
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
     a$addItem(0, c(97, 0))
     a$addItem(1, c(42, 42))
 
@@ -62,7 +62,7 @@ test05dist3 <- function() {
 
 test06degen <- function() {
     f <- 2
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
     a$addItem(0, c(1, 0))
     a$addItem(1, c(0, 0))
 
@@ -72,7 +72,7 @@ test06degen <- function() {
 test07largeIndex <- function() {
     ## Generate pairs of random points where the pair is super close
     f <- 10
-    a <- new(AnnoyAngular, f)
+    a <- AnnoyIndex(f)
     set.seed(123)
     for (j in seq(0, 10000, by=2)) {
         p <- rnorm(f)
@@ -85,8 +85,8 @@ test07largeIndex <- function() {
     }
     a$build(10)
     for (j in seq(0, 10000, by=2)) {
-        checkEquals(a$getNNsByItem(j,   2), c(j,   j+1), msg="getNNsByItem check1")
-        checkEquals(a$getNNsByItem(j+1, 2), c(j+1, j),   msg="getNNsByItem check1")
+        checkEquals(a$getNNsByItem(j,   2)$item, c(j,   j+1), msg="getNNsByItem check1")
+        checkEquals(a$getNNsByItem(j+1, 2)$item, c(j+1, j),   msg="getNNsByItem check1")
     }
 }
 
